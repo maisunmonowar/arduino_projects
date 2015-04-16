@@ -1,0 +1,489 @@
+// Date and time functions using a DS1307 RTC connected via I2C and Wire lib
+
+#include <Wire.h>
+#include "RTClib.h"
+
+RTC_DS1307 rtc;
+int x, z;
+long y;
+void displaySeg(int h4, int h3)
+{
+  int h21 = ((int)(h4 / 10)) % 10;
+  switch (h21)
+  {
+    case 1:
+      one();
+      seg4();
+      delay(2);
+      break;
+    case 2:
+      two();
+      seg4();
+      delay(2);
+      break;
+    default:
+      zero();
+      seg4();
+      delay(2);
+      break;
+  }
+  int h11 = h4 % 10;
+  switch (h11)
+  {
+    case 1:
+      one();
+      seg3();
+      delay(2);
+      break;
+    case 2:
+      two();
+      seg3();
+      delay(2);
+      break;
+    case 3:
+      three();
+      seg3();
+      delay(2);
+      break;
+    case 4:
+      four();
+      seg3();
+      delay(2);
+      break;
+    case 5:
+      five();
+      seg3();
+      delay(2);
+      break;
+    case 6:
+      six();
+      seg3();
+      delay(2);
+      break;
+    case 7:
+      seven();
+      seg3();
+      delay(2);
+      break;
+    case 8:
+      eight();
+      seg3();
+      delay(2);
+      break;
+    case 9:
+      nine();
+      seg3();
+      delay(2);
+      break;
+    default:
+      zero();
+      seg3();
+      delay(2);
+      break;
+  }
+
+  //minute er jonno calculation
+  int h5 = (((int)(h3 / 10)) % 10);
+  switch (h5)
+  {
+    case 1:
+      one();
+      seg2();
+      delay(2);
+      break;
+    case 2:
+      two();
+      seg2();
+      delay(2);
+      break;
+    case 3:
+      three();
+      seg2();
+      delay(2);
+      break;
+    case 4:
+      four();
+      seg2();
+      delay(2);
+      break;
+    case 5:
+      five();
+      seg2();
+      delay(2);
+      break;
+    case 6:
+      six();
+      seg2();
+      delay(2);
+      break;
+    case 7:
+      seven();
+      seg2();
+      delay(2);
+      break;
+    case 8:
+      eight();
+      seg2();
+      delay(2);
+      break;
+    case 9:
+      nine();
+      seg2();
+      delay(2);
+      break;
+
+    default:
+      zero();
+      seg2();
+      delay(2);
+      break;
+  }
+  int h6 = h3 % 10;
+  switch (h6)
+  {
+    case 1:
+      one();
+      seg1();
+      delay(2);
+      break;
+    case 2:
+      two();
+      seg1();
+      delay(2);
+      break;
+    case 3:
+      three();
+      seg1();
+      delay(2);
+      break;
+    case 4:
+      four();
+      seg1();
+      delay(2);
+      break;
+    case 5:
+      five();
+      seg1();
+      delay(2);
+      break;
+    case 6:
+      six();
+      seg1();
+      delay(2);
+      break;
+    case 7:
+      seven();
+      seg1();
+      delay(2);
+      break;
+    case 8:
+      eight();
+      seg1();
+      delay(2);
+      break;
+    case 9:
+      nine();
+      seg1();
+      delay(2);
+      break;
+    default:
+      zero();
+      seg1();
+      delay(2);
+      break;
+  }
+
+  /*
+    nine();
+    seg4();
+    delay(2);
+    zero();
+    seg3();
+    delay(2);
+    seven();
+    seg2();
+    delay(2);
+    eight();
+    seg1();
+    delay(2);
+  */
+}
+void seg1()
+{
+  digitalWrite(2, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, HIGH);
+}
+void seg2()
+{
+  digitalWrite(2, HIGH);
+  digitalWrite(3, LOW);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, HIGH);
+}
+void seg3()
+{
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, LOW);
+  digitalWrite(5, HIGH);
+}
+void seg4()
+{
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, LOW);
+}
+void one() {
+  digitalWrite(6, HIGH);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, HIGH);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, HIGH);
+  digitalWrite(12, HIGH);
+  //digitalWrite(13, HIGH);
+}
+void two() {
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, HIGH);
+  digitalWrite(9, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(11, HIGH);
+  digitalWrite(12, LOW);
+  //digitalWrite(13, HIGH);
+}
+void three() {
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, HIGH);
+  digitalWrite(12, LOW);
+  //digitalWrite(13, HIGH);
+}
+void four()
+{
+  digitalWrite(6, HIGH);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, HIGH);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, LOW);
+  digitalWrite(12, LOW);
+  //digitalWrite(13, HIGH);
+}
+void five() {
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, LOW);
+  digitalWrite(12, LOW);
+  //digitalWrite(13, HIGH);
+}
+
+void six()
+{
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(11, LOW);
+  digitalWrite(12, LOW);
+  //digitalWrite(13, HIGH);
+}
+void seven()
+{
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, HIGH);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, HIGH);
+  digitalWrite(12, HIGH);
+  //digitalWrite(13, HIGH);
+}
+void eight()
+{
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(11, LOW);
+  digitalWrite(12, LOW);
+  //digitalWrite(13, HIGH);
+}
+void nine()
+{
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, LOW);
+  digitalWrite(12, LOW);
+  //digitalWrite(13, HIGH);
+}
+
+void zero()
+{
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(11, LOW);
+  digitalWrite(12, HIGH);
+  //digitalWrite(13, HIGH);
+}
+
+void ringAlarm()
+{
+  digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500);
+  digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500); digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500); digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500); digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500);
+}
+
+
+
+void setup () {
+  x = 0;
+  y = 0;
+
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(13, OUTPUT);
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(5, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(6, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  digitalWrite(9, HIGH);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, HIGH);
+  digitalWrite(12, HIGH);
+  digitalWrite(13, LOW);
+
+  Serial.begin(57600);
+#ifdef AVR
+  Wire.begin();
+#else
+  Wire1.begin(); // Shield I2C pins connect to alt I2C bus on Arduino Due
+#endif
+  rtc.begin();
+  rtc.adjust(DateTime(2015, 4, 12, 5, 12, 0));
+  if (! rtc.isrunning())
+  {
+    Serial.println("RTC is NOT running!");
+    // following line sets the RTC to the date & time this sketch was compiled
+    //  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    // This line sets the RTC with an explicit date & time, for example to set
+    // January 21, 2014 at 3am you would call:
+    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  }
+}
+
+void loop () {
+  DateTime now = rtc.now();
+
+  Serial.print(now.year(), DEC);
+  Serial.print('/');
+  Serial.print(now.month(), DEC);
+  Serial.print('/');
+  Serial.print(now.day(), DEC);
+  Serial.print(' ');
+  Serial.print(now.hour(), DEC);
+  Serial.print(':');
+  Serial.print(now.minute(), DEC);
+  Serial.print(':');
+  Serial.print(now.second(), DEC);
+  Serial.print("    ");
+
+  /*Serial.print(" since midnight 1/1/1970 = ");
+   Serial.print(now.unixtime());
+   Serial.print("s = ");
+   Serial.print(now.unixtime() / 86400L);
+   Serial.print("d");
+  */
+  // calculate a date which is 7 days and 30 seconds into the future
+  //DateTime future (now.unixtime() + 7 * 86400L + 30);
+
+  /*rial.print(" now + 7d + 30s: ");
+  Serial.print(future.year(), DEC);
+  Serial.print('/');
+  Serial.print(future.month(), DEC);
+  Serial.print('/');
+  Serial.print(future.day(), DEC);
+  Serial.print(' ');
+  Serial.print(future.hour(), DEC);
+  Serial.print(':');
+  Serial.print(future.minute(), DEC);
+  Serial.print(':');
+  Serial.print(future.second(), DEC);
+  Serial.println();
+
+  Serial.println();
+  */
+  ///////////////////
+  if (digitalRead(A0) == LOW)
+  {
+    x++;
+    z = x * 60;
+
+    delay(400);
+    y = now.unixtime();
+  }
+
+  Serial.print(x);
+  Serial.print("    ");
+  Serial.println((now.unixtime() - y), DEC);
+
+  if (( now.unixtime() - y) == z)
+  {
+    ringAlarm();
+    x = 0;
+  }
+  //////////////////
+
+
+
+  //////
+  int h4 = now.hour();
+  int h3 = now.minute();
+  displaySeg(h4, h3);
+  //////
+  //delay(3000);
+}
